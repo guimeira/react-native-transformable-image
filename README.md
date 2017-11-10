@@ -6,7 +6,7 @@ A pure JavaScript written transformable image component, like PhotoView or Image
 
 
 
-Written in pure JS, this component should be one of the most easy to use component among all the zoomable, scrollable PhotoView alike views on react-native. 
+Written in pure JS, this component should be one of the most easy to use component among all the zoomable, scrollable PhotoView alike views on react-native.
 
 ## Install
 
@@ -34,11 +34,11 @@ render() {
   }
 ```
 
-You can provide `enableTransform`, `enableScale` and `enableTranslate`  props to control corresponding features.
+You can provide `enableTransform`, `enableScale` and `enableTranslate`  props to control corresponding features. The `fillViewport` boolean prop, when set to `true`, forces the image to always fill the entire viewport (requires [my version](https://github.com/guimeira/react-native-view-transformer) of `react-native-view-transformer`).
 
 #### Other props
 
-* `onTransformGestureReleased` and `onViewTransformed`: 
+* `onTransformGestureReleased` and `onViewTransformed`:
 
 ​	inherited from [react-native-view-transformer](https://github.com/ldn0x7dc/react-native-view-transformer)
 
@@ -52,3 +52,4 @@ You can provide `enableTransform`, `enableScale` and `enableTranslate`  props to
 ## Image Gallery
 
 If you are looking for an image gallery component, please refer to [**react-native-gallery**](https://github.com/ldn0x7dc/react-native-gallery), which is based on this component.
+

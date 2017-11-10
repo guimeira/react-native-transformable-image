@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+import { View, Image } from 'react-native';
 
 import ViewTransformer from 'react-native-view-transformer';
 
@@ -25,7 +25,8 @@ export default class TransformableImage extends Component {
     enableTranslate: PropTypes.bool,
     onSingleTapConfirmed: PropTypes.func,
     onTransformGestureReleased: PropTypes.func,
-    onViewTransformed: PropTypes.func
+    onViewTransformed: PropTypes.func,
+    fillViewport: PropTypes.bool
   };
 
   static defaultProps = {
@@ -63,6 +64,7 @@ export default class TransformableImage extends Component {
 
   render() {
     let maxScale = 1;
+    let minScale = 0;
     let contentAspectRatio = undefined;
     let width, height; //pixels
 
@@ -81,9 +83,22 @@ export default class TransformableImage extends Component {
       if (this.state.width && this.state.height) {
         maxScale = Math.max(width / this.state.width, height / this.state.height);
         maxScale = Math.max(1, maxScale);
+
+        if(this.props.fillViewport) {
+          let viewportAspectRatio = this.state.width/this.state.height;
+
+          if(viewportAspectRatio < contentAspectRatio) {
+            minScale = contentAspectRatio/viewportAspectRatio;
+          } else {
+            minScale = viewportAspectRatio/contentAspectRatio;
+          }
+        }
       }
     }
 
+    if(this.state.width == 0 && this.state.height == 0) {
+      return (<View style={{flex: 1}} onLayout={this.onLayout.bind(this)} />);
+    }
 
     return (
       <ViewTransformer
@@ -96,7 +111,9 @@ export default class TransformableImage extends Component {
         onTransformGestureReleased={this.props.onTransformGestureReleased}
         onViewTransformed={this.props.onViewTransformed}
         onSingleTapConfirmed={this.props.onSingleTapConfirmed}
+        minScale={minScale}
         maxScale={maxScale}
+        initialScale={minScale != 0 ? minScale : undefined}
         contentAspectRatio={contentAspectRatio}
         onLayout={this.onLayout.bind(this)}
         style={this.props.style}>
@@ -182,3 +199,4 @@ function sameSource(source, nextSource) {
   }
   return false;
 }
+
